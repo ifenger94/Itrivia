@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>Itrivia.Database</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{fc10cb9b-433e-42c5-a123-f5e40e694df0}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>Itrivia.Database</RootNamespace>
+    <AssemblyName>Itrivia.Database</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="Tables" />
+    <Folder Include="Tables\Gestion" />
+    <Folder Include="Tables\Parametros" />
+    <Folder Include="Tables\Seguridad" />
+    <Folder Include="Schemas" />
+    <Folder Include="Data" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Tables\Gestion\gestion.ges_ptipo_juego.sql" />
+    <Build Include="Tables\Gestion\gestion.ges_tautocompletado.sql" />
+    <Build Include="Tables\Gestion\gestion.ges_tcategorias.sql" />
+    <Build Include="Tables\Gestion\gestion.ges_tdesafios.sql" />
+    <Build Include="Tables\Gestion\gestion.ges_tetapas.sql" />
+    <Build Include="Tables\Gestion\gestion.ges_thist_perfil_desafio.sql" />
+    <Build Include="Tables\Gestion\gestion.ges_thist_perfil_secciones.sql" />
+    <Build Include="Tables\Gestion\gestion.ges_tmultiplechoice.sql" />
+    <Build Include="Tables\Gestion\gestion.ges_tperfiles.sql" />
+    <Build Include="Tables\Gestion\gestion.ges_tsecciones.sql" />
+    <Build Include="Tables\Gestion\gestion.ges_tselec_pares.sql" />
+    <Build Include="Tables\Parametros\parametros.ges_pimagenes.sql" />
+    <Build Include="Tables\Parametros\parametros.petiquetas.sql" />
+    <Build Include="Tables\Parametros\parametros.pmensajes.sql" />
+    <Build Include="Tables\Seguridad\seguridad.seg_proles.sql" />
+    <Build Include="Tables\Seguridad\seguridad.seg_tusuarios.sql" />
+    <PostDeploy Include="ScriptsPostDeployment.sql" />
+    <Build Include="Schemas\gestion.sql" />
+    <Build Include="Schemas\Parametros.sql" />
+    <Build Include="Schemas\seguridad.sql" />
+    <None Include="Data\DefaultDataGestion.sql" />
+    <None Include="Data\DefaultDataParametros.sql" />
+    <None Include="Data\DefaultDataSeguridad.sql" />
+  </ItemGroup>
+</Project>
