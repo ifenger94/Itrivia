@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ITrivia.Contracts\ITrivia.Contracts.csproj" />
+    <ProjectReference Include="..\ITrivia.Helpers\ITrivia.Helpers.csproj" />
   </ItemGroup>
 
 </Project>

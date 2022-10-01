@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ITrivia.Contracts\ITrivia.Contracts.csproj" />
+  </ItemGroup>
+
 </Project>
