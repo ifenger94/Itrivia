@@ -38,7 +38,7 @@ namespace ITrivia.DataAccess
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=localhost; DataBase=ITrivia.DataBase; Trusted_Connection=true");
+                //optionsBuilder.UseSqlServer("Server=localhost; DataBase=ITrivia.DataBase; Trusted_Connection=true");
             }
         }
 
