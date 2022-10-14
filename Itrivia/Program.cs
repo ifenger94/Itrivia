@@ -2,12 +2,14 @@ using Itrivia.WebApi.Helpers;
 using ITrivia.Contracts.Domain;
 using ITrivia.Contracts.Facade;
 using ITrivia.Contracts.Repository;
+using ITrivia.Contracts.Security;
 using ITrivia.DataAccess;
 using ITrivia.DataAccess.Repository;
 using ITrivia.Domain.Management;
 using ITrivia.Domain.Parameter;
 using ITrivia.Domain.Security;
 using ITrivia.Facade.User;
+using ITrivia.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,11 +23,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddDbContext<ITriviaDataBaseContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ITrivia.Database")));
+//builder.Services.AddDbContext<ITriviaDataBaseContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ITrivia.Database")));
 builder.Services.AddScoped<ILabelRepository, LabelRepository>();
 builder.Services.AddScoped<ILabelDomain>(x => new LabelDomain(x.GetRequiredService<ILabelRepository>()));
 
-builder.Services.AddScoped<IMessagelRepository,MessageRepository>();
+builder.Services.AddScoped<IMessagelRepository, MessageRepository>();
 builder.Services.AddScoped<IMessageDomain>(x => new MessageDomain(x.GetRequiredService<IMessagelRepository>()));
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -41,10 +43,11 @@ builder.Services.AddScoped<IRolDomain>(x => new RolDomain(x.GetRequiredService<I
 builder.Services.AddScoped<IImageRepository, ImageRepository>();
 builder.Services.AddScoped<IImageDomain>(x => new ImageDomain(x.GetRequiredService<IImageRepository>()));
 
-builder.Services.AddScoped<IFacadeUser>(x=> 
+builder.Services.AddScoped<IFacadeUser>(x =>
     new FacadeUser(x.GetRequiredService<IUserDomain>(), x.GetRequiredService<IProfileDomain>(), x.GetRequiredService<IRolDomain>(), x.GetRequiredService<IImageDomain>())
 );
 
+builder.Services.AddSingleton<IJWTHelper, JWTHelper>();
 
 builder.Services.AddAutoMapper(typeof(AutoMappingProfiles).Assembly);
 var app = builder.Build();

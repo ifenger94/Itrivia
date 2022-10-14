@@ -22,6 +22,7 @@
     <ProjectReference Include="..\ITrivia.Domain\ITrivia.Domain.csproj" />
     <ProjectReference Include="..\ITrivia.Facade\ITrivia.Facade.csproj" />
     <ProjectReference Include="..\ITrivia.Helpers\ITrivia.Helpers.csproj" />
+    <ProjectReference Include="..\ITrivia.Types\ITrivia.Types.csproj" />
   </ItemGroup>
 
 </Project>

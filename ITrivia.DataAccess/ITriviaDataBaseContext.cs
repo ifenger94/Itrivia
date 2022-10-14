@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using ITrivia.Types.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
 
 namespace ITrivia.DataAccess
 {
@@ -38,7 +39,7 @@ namespace ITrivia.DataAccess
         {
             if (!optionsBuilder.IsConfigured)
             {
-                //optionsBuilder.UseSqlServer("Server=localhost; DataBase=ITrivia.DataBase; Trusted_Connection=true");
+                optionsBuilder.UseSqlServer("data source=127.0.0.1,1433;user id=SA;password=Super_P@ssword1;initial catalog=ITrivia.Database;");
             }
         }
 
