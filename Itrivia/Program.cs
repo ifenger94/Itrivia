@@ -10,8 +10,10 @@ using ITrivia.Domain.Parameter;
 using ITrivia.Domain.Security;
 using ITrivia.Facade.User;
 using ITrivia.Helpers;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,6 +52,17 @@ builder.Services.AddScoped<IFacadeUser>(x =>
 builder.Services.AddSingleton<IJWTHelper, JWTHelper>();
 
 builder.Services.AddAutoMapper(typeof(AutoMappingProfiles).Assembly);
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
+{
+    opt.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(ConstantsHelper.KeyForHmacSha256),
+        ValidateAudience = true,
+        ValidateIssuer = true
+    };
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -58,7 +71,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

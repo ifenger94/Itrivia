@@ -16,17 +16,11 @@ namespace ITrivia.Helpers
 {
     public class JWTHelper : IJWTHelper
     {
-        private readonly IConfiguration _configuration;
-        private readonly byte[] _signingKey;
         private readonly SymmetricSecurityKey _symmetricSecurityKey;
-        private readonly JwtSecurityTokenHandler _jwtSecurityHandler;
 
-        public JWTHelper(IConfiguration configuration)
+        public JWTHelper()
         {
-            _configuration = configuration;
-            _signingKey = new byte[64];
-            _symmetricSecurityKey = new SymmetricSecurityKey(_signingKey);
-            _jwtSecurityHandler = new JwtSecurityTokenHandler();
+            _symmetricSecurityKey = new SymmetricSecurityKey(ConstantsHelper.KeyForHmacSha256);
         }
 
         public UserToken GenerateToken(string username, double minutes)
@@ -35,50 +29,61 @@ namespace ITrivia.Helpers
             var signingCredentials = new SigningCredentials(_symmetricSecurityKey, SecurityAlgorithms.HmacSha256Signature);
             var expirationDate = DateTime.UtcNow.AddMinutes(minutes);
 
-            // Create a new list of claims to be attached to the JWT Token
             var claims = new List<Claim> { new Claim(ClaimTypes.Name, username), new Claim(ClaimTypes.Sid, Guid.NewGuid().ToString()) };
 
-            // Create a new JWT Security Token
-            var credentials = new JwtSecurityToken(claims: claims, expires: expirationDate, signingCredentials: signingCredentials);
-
+            var credentials = new JwtSecurityToken(
+                claims: claims,
+                expires: expirationDate,
+                signingCredentials: signingCredentials,
+                issuer: ConstantsHelper.TokenIssuer,
+                audience: ConstantsHelper.TokenAudience);
+            
+            var tokenHandler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
+            
             userToken.ExpirationDate = expirationDate;
-            userToken.Token = _jwtSecurityHandler.WriteToken(credentials);
+            userToken.Token = tokenHandler.WriteToken(credentials);
 
             return userToken;
         }
 
-        public UserToken RefreshToken(string token, double minutes)
+        public UserToken RefreshToken(string jwt, double minutes)
         {
-            var claimsPrincipal = this.ValidateToken(token);
-            var userClaim = claimsPrincipal.FindFirst(ClaimTypes.Name);
-            IList<Claim> claims = new List<Claim>() { userClaim, new Claim(ClaimTypes.Sid, Guid.NewGuid().ToString()) };
-            var expirationDate = DateTime.UtcNow.AddMinutes(minutes);
-            var signingCredentials = new SigningCredentials(_symmetricSecurityKey, SecurityAlgorithms.HmacSha256Signature);
+            ClaimsPrincipal claimPrincipal = ValidateToken(jwt);
+            DateTime expirationDate = DateTime.UtcNow.AddMinutes(minutes);
+            Claim userNameClaim = claimPrincipal.FindFirst(ClaimTypes.Name);
+            List<Claim> claims = new List<Claim> { userNameClaim, new Claim(ClaimTypes.Sid, Guid.NewGuid().ToString()) };
+            var securityKey = new SymmetricSecurityKey(ConstantsHelper.KeyForHmacSha256);
+            var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
 
-            var newCredentials = new JwtSecurityToken(claims: claims, expires: expirationDate, signingCredentials: signingCredentials);
+            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
 
-            var userToken = new UserToken();
-            userToken.ExpirationDate = expirationDate;
-            userToken.Token = _jwtSecurityHandler.WriteToken(newCredentials);
+            SecurityToken token = tokenHandler
+                .CreateToken(BuildSecurityTokenDescriptor(signingCredentials, claims, expirationDate));
 
-            return userToken;
+            return new UserToken
+            {
+                ExpirationDate = expirationDate,
+                Token = tokenHandler.WriteToken(token)
+            };
         }
 
         private ClaimsPrincipal ValidateToken(string jwtToken)
         {
-            var tokenHandler = _jwtSecurityHandler;
-            var validationParameters = new TokenValidationParameters()
-            {
-                ValidateIssuer = true,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
-                ValidAudience = _configuration["Audience"].ToString(),
-                ValidIssuer = _configuration["Issuer"].ToString(),
-                LifetimeValidator = this.LifetimeValidator,
-                IssuerSigningKey = new SymmetricSecurityKey(_signingKey)
-            };
+            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+            TokenValidationParameters validationParams =
+                new TokenValidationParameters()
+                {
+                    ValidateIssuer = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidAudience = ConstantsHelper.TokenAudience,
+                    ValidIssuer = ConstantsHelper.TokenIssuer,
+                    LifetimeValidator = this.LifetimeValidator,
+                    IssuerSigningKey = new SymmetricSecurityKey(ConstantsHelper.KeyForHmacSha256)
+                };
+            SecurityToken dummyJwt;
 
-            return tokenHandler.ValidateToken(jwtToken, validationParameters, out var validatedToken);
+            return tokenHandler.ValidateToken(jwtToken, validationParams, out dummyJwt);
         }
 
         private bool LifetimeValidator(DateTime? notBefore, DateTime? expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
@@ -88,6 +93,18 @@ namespace ITrivia.Helpers
                 if (DateTime.UtcNow < expires) return true;
             }
             return false;
+        }
+
+        private SecurityTokenDescriptor BuildSecurityTokenDescriptor(SigningCredentials securityKey, List<Claim> claims, DateTime expirationDate)
+        {
+            return new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
+                Expires = expirationDate,
+                Issuer = ConstantsHelper.TokenIssuer,
+                Audience = ConstantsHelper.TokenAudience,
+                SigningCredentials = securityKey
+            };
         }
 
 

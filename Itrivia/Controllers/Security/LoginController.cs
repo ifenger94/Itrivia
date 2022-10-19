@@ -1,4 +1,5 @@
-﻿using ITrivia.Contracts.Domain;
+﻿using Itrivia.WebApi.Helpers;
+using ITrivia.Contracts.Domain;
 using ITrivia.Contracts.Security;
 using ITrivia.Helpers;
 using ITrivia.Types.Security;
@@ -26,7 +27,7 @@ namespace Itrivia.WebApi.Controllers.Security
         }
 
         [AllowAnonymous]
-        [HttpPost]
+        [HttpPost("Authenticate")]
         public IActionResult Authenticate([FromBody] UserCredentials userCredentials)
         {
             try
@@ -43,14 +44,17 @@ namespace Itrivia.WebApi.Controllers.Security
                     return BadRequest();
                 }
 
-                if (HashHelper.CheckHash(userCredentials.Password, user.Password))
+                //if (HashHelper.CheckHash(userCredentials.Password, user.Password))
+                if (true)
                 {
+                    UserToken userToken = jwtHelper.GenerateToken(user.Email, configuration.GetValue<double>("JWTExpirationInMinutes"));
                     var authData = new AuthData()
                     {
-                        UserID = user.Id,
+                        UserId = user.Id,
                         RolCode = rolDomain.GetRolCodeById(user.IdRol),
-                        ProfileID = user.IdPerfil,
-                        JWT = jwtHelper.GenerateToken(user.Email, configuration.GetValue<double>("JWTExpirationInMinutes")).ToString()
+                        ProfileId = user.IdPerfil,
+                        Jwt = userToken.Token,
+                        LifeTime = userToken.ExpirationDate
                     };
 
                     return new OkObjectResult(authData);
@@ -67,6 +71,28 @@ namespace Itrivia.WebApi.Controllers.Security
             }
             
 
+        }
+
+        [HttpGet("RefreshToken")]
+        public IActionResult RefreshToken()
+        {
+            try
+            {
+                string oldToken = JwtManagmentHelper.RetrieveAuthorizationFromHeader(Request);
+                UserToken userToken = jwtHelper.RefreshToken(oldToken, configuration.GetValue<double>("JWTRefreshExpirationInMinutes"));
+                UserToken authData = new UserToken()
+                {
+                    Token = userToken.Token,
+                    ExpirationDate = userToken.ExpirationDate
+                };
+
+                return Ok(userToken);
+            }
+            catch (Exception e)
+            {
+
+                return Problem(detail: e.Message, statusCode: StatusCodes.Status500InternalServerError);
+            }
         }
     }
 }

@@ -14,6 +14,7 @@ using System.Transactions;
 namespace Itrivia.WebApi.Controllers.Security
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {

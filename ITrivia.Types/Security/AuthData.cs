@@ -8,10 +8,10 @@ namespace ITrivia.Types.Security
 {
     public class AuthData
     {
-        public DateTime LifeTime { get; set; }
-        public int? ProfileID { get; set; }
+        public DateTime LifeTime { set; get; }
+        public int? ProfileId { set; get; }
         public string RolCode { get; set; }
-        public string JWT { get; set; }
-        public int UserID { get; set; }
+        public string Jwt { get; set; }
+        public int UserId { set; get; }
     }
 }
