@@ -1,4 +1,5 @@
-﻿using ITrivia.Types.Models;
+﻿using ITrivia.Types.Dtos.User;
+using ITrivia.Types.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace ITrivia.Contracts.Facade
     {
         SegTusuario GenerateUser(SegTusuario user);
 
-        //IEnumerable<SummaryUserProfileDto> GetSummaryUserProfile();
+        IEnumerable<SummaryUserProfileDto> GetSummaryUserProfile();
 
     }
 }
