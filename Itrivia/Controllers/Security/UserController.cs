@@ -76,7 +76,6 @@ namespace Itrivia.WebApi.Controllers.Security
             }
         }
 
-        [AllowAnonymous]
         [HttpGet("SummaryUserProfile")]
         public IActionResult GetSumaryUserProfile()
         {
@@ -111,7 +110,7 @@ namespace Itrivia.WebApi.Controllers.Security
                 if (user == null)
                     return BadRequest();
                 else
-                    return CreatedAtRoute("DefaultApi", new { controller = "user", id = user.Id }, userRequestDto);
+                    return CreatedAtRoute(null, new { id = user.Id }, userRequestDto);
             }
             catch (Exception e)
             {

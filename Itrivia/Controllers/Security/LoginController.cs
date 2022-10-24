@@ -44,8 +44,7 @@ namespace Itrivia.WebApi.Controllers.Security
                     return BadRequest();
                 }
 
-                //if (HashHelper.CheckHash(userCredentials.Password, user.Password))
-                if (true)
+                if ((HashHelper.CheckHash(userCredentials.Password, user.Password)))
                 {
                     UserToken userToken = jwtHelper.GenerateToken(user.Email, configuration.GetValue<double>("JWTExpirationInMinutes"));
                     var authData = new AuthData()

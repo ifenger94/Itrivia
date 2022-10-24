@@ -39,13 +39,13 @@ namespace ITrivia.Domain.Base
         public virtual TEntity Create(TEntity entity)
         {
             entity.AltaFecha = DateTime.Now;
-            // entity.Usuario = JwtHelper.instace.GetCurrentUser();
+            entity.Usuario = "prueba";
             return _repository.Create(entity);
         }
 
         public virtual void Update(TEntity entity)
         {
-            //entity.Usuario = JwtHelper.instace.GetCurrentUser();
+            entity.Usuario = "prueba";
             entity.ModiFecha = DateTime.Now;
             _repository.Update(entity);
         }
