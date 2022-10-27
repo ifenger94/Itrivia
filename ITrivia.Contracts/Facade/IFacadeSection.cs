@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ITrivia.Types.Filters;
+using ITrivia.Types.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +10,6 @@ namespace ITrivia.Contracts.Facade
 {
     public interface IFacadeSection
     {
-        //IEnumerable<ges_tsecciones> GetSectionByProfile(FilterSectionManagment filter);
+        IEnumerable<GesTseccione> GetSectionByProfile(FilterSectionManagment filter);
     }
 }

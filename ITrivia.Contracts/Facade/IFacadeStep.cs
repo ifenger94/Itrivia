@@ -1,4 +1,5 @@
-﻿using ITrivia.Types.Models;
+﻿using ITrivia.Types.Dtos.Step;
+using ITrivia.Types.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace ITrivia.Contracts.Facade
 {
     public interface IFacadeStep
     {
-       // void GeneratePairSelection(List<StepDetailDto> stepDetails);
+       void GeneratePairSelection(List<StepDetailDto> stepDetails);
         void DeleteAndUpdateStates(GesTetapa entity);
     }
 }
