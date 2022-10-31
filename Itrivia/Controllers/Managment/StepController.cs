@@ -40,8 +40,8 @@ namespace Itrivia.WebApi.Controllers.Managment
             }
         }
         
-        [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        [HttpGet("detail")]
+        public IActionResult Get([FromQuery]int id)
         {
             try
             {
@@ -56,7 +56,7 @@ namespace Itrivia.WebApi.Controllers.Managment
         }
         
         [HttpGet("GetStepByChallenge")]
-        public IActionResult GetStepByChallenge([FromQuery] int challengeId)
+        public IActionResult GetStepByChallenge([FromQuery]int challengeId)
         {
             try
             {

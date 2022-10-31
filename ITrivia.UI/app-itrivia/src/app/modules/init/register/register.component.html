@@ -1,0 +1,99 @@
+<head>
+  <meta charset="utf-8">
+</head>
+
+<body>
+
+  <div class="wrapper fadeInDown">
+    <div id="formContent">
+      <!-- Tabs Titles -->
+      <h2>{{messageService.messages['title-signup']}}</h2>
+
+
+
+      <!-- Login Form -->
+      <form [formGroup]="form" novalidate>
+        <input type="text" class="fadeIn second" placeholder="{{messageService.messages['login-name']}}"
+          formControlName="name">
+        <!-- Validación nombre -->
+        <div class=" validation" *ngIf="nameField.errors && nameField.touched">
+          <p *ngIf="nameField.hasError('required')">
+            {{messageService.messages['validate-name-signup']}}
+          </p>
+        </div>
+        <!--// Validación nombre -->
+
+        <input type="text"  class="fadeIn second" placeholder="{{messageService.messages['login-lastname']}}"
+          formControlName="lastname">
+        <!-- Validación apellido -->
+        <div class=" validation" *ngIf="lastnameField.errors && lastnameField.touched">
+          <p *ngIf="lastnameField.hasError('required')">
+            {{messageService.messages['validate-surname-signup']}}
+          </p>
+        </div>
+        <!--// Validación apellido -->
+
+        <input type="text" id="email" class="fadeIn third" placeholder="{{labelService.labels['email']}}"
+          formControlName="email">
+        <!-- Validación email -->
+        <div class=" validation" *ngIf="emailField.errors && emailField.touched">
+          <p *ngIf="emailField.hasError('required')">
+            {{messageService.messages['validate-email-signup']}}
+          </p>
+          <p  class="error" *ngIf="emailField.hasError('maxlength')">
+            {{labelService.labels['max']}} 30 {{labelService.labels['char']}}
+          </p>
+          <p *ngIf="emailField.hasError('email')">
+            {{messageService.messages['validate-emailformat-signup']}}
+          </p>
+        </div>
+        <!--// Validación email -->
+
+        <div class="wraper">
+          <input type="password" id="password" class="fadeIn third" placeholder="{{labelService.labels['password']}}"
+            formControlName="password">
+          <span>
+            <i class="fas fa-eye-slash" id="eye" (click)="togglePassword()"></i>
+          </span>
+        </div>
+        <!-- Validación contraseña -->
+        <div class=" validation" *ngIf="passwordField.errors && passwordField.touched">
+          <p *ngIf="passwordField.hasError('required')">
+            {{messageService.messages['validate-password-signup']}}
+          </p>
+          <p *ngIf="passwordField.hasError('minlength')">
+            {{messageService.messages['validate-passwordlenght-signup']}}
+          </p>
+        </div>
+        <!--// Validación contraseña -->
+
+        <div class="wraper">
+          <input type="password" id="password2" class="fadeIn third"
+            placeholder="{{labelService.labels['confirm-password']}}" formControlName="password2">
+          <span>
+            <i class="fas fa-eye-slash" id="eye2" (click)="toggleConfirmPassword()"></i>
+          </span>
+        </div>
+        <!-- Validación confirmar contraseña -->
+        <div class=" validation"
+          *ngIf="form.errors?.mismatch && (form.controls['password2'].dirty || form.controls['password2'].touched)">
+          <p>
+            {{messageService.messages['validate-password2-signup']}}
+          </p>
+        </div>
+        <!--// Validación confirmar contraseña -->
+      </form>
+
+      <input *ngIf="!loading" type="button" (click)="onSubmit()" [ngStyle]="{'background-color': form.invalid ? 'rgb(95 95 95)':'#e67e22'}" class="fadeIn fourth  m-2" id="button" value="{{labelService.labels['signup']}}"
+        [disabled]="form.invalid">
+        
+        <ng-container *ngIf="loading">
+          <i class="fa fa-spinner fa-pulse fa-2x fa-fw mt-2"></i>
+        </ng-container>
+      <!-- Recuperar contraseña-->
+      <div id="formFooter">
+        <a class="underlineHover" [routerLink]="'/login'" href="">{{messageService.messages['back-login2']}}</a>
+      </div>
+    </div>
+  </div>
+</body>

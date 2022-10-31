@@ -1,0 +1,12 @@
+<ng-container *ngIf="!menuService.fullLoader">
+    <app-navigation></app-navigation>
+    <router-outlet></router-outlet>
+    <app-footer></app-footer>
+</ng-container>
+
+<ng-container *ngIf="menuService.fullLoader">
+    <div class="container">
+        <div class="background"></div>
+        <img src="../../../../assets/loader/loader-gral.gif" class="full-loader background">
+    </div>
+</ng-container>
