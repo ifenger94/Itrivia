@@ -1,0 +1,19 @@
+<ng-container>
+    <div class="lifes">
+        <img src="../../../../../assets/icons/lifes.png" alt="">
+        <p>{{life}}</p>
+    </div>
+    <ng-container *ngIf="!!currentGame">
+        <app-multchoice *ngIf="currentGameView == $GAMES_ENUM.MULTIPLECHOISE" [item]="currentGame"
+            (accepted)="accepted()" (failed)="failed($event)">
+        </app-multchoice>
+        <app-autocomplete *ngIf="currentGameView == $GAMES_ENUM.AUTOCOMPLETADO" [item]="currentGame"
+            (accepted)="accepted()" (failed)="failed($event)">
+        </app-autocomplete>
+        <app-selpares *ngIf="currentGameView == $GAMES_ENUM.PAIRSELECTION" [item]="currentGame"
+            (accepted)="accepted()" (failed)="failed($event)">
+        </app-selpares>
+        <p class="steps">Etapa {{currentStep}}/{{challenge.StepsCount}}</p>
+    </ng-container>
+
+</ng-container>

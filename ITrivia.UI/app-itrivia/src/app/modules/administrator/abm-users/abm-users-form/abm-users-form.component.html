@@ -1,0 +1,109 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{messageService.messages['abm-users']}}</h4>
+    <button class="close" aria-label="close" type="button" (click)="close()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form class="needs-validation" [formGroup]="form" *ngIf="!changePassword">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="email">{{labelService.labels['email']}}</label>
+                <input type="email" class="form-control" id="email" placeholder="{{labelService.labels['email']}}"
+                    formControlName="Email">
+                <p class="error" *ngIf="form.get('Email').hasError('required') && form.get('Email').touched">{{messageService.messages['required-field']}}</p>
+                <p  class="error" *ngIf="form.get('Email').hasError('maxlength') && form.get('Email').touched">{{labelService.labels['max']}} 30 {{labelService.labels['char']}}</p>
+                <p  class="error" *ngIf="form.get('Email').hasError('email') && form.get('Email').touched">{{messageService.messages['validate-emailformat-signup']}}</p>
+
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="Name">{{labelService.labels['name']}}</label>
+                <input type="text" class="form-control" id="Name" placeholder="{{labelService.labels['name']}}"
+                    formControlName="Name">
+                <p class="error" *ngIf="form.get('Name').hasError('required') && form.get('Name').touched">{{messageService.messages['required-field']}}</p>
+                <p  class="error" *ngIf="form.get('Name').hasError('maxlength') && form.get('Name').touched">{{labelService.labels['max']}} 12 {{labelService.labels['char']}}</p>
+
+            </div>
+            <div class="form-group col-md-6">
+                <label for="LastName">{{messageService.messages['login-lastname']}}</label>
+                <input type="text" class="form-control" id="LastName"
+                    placeholder="{{messageService.messages['login-lastname']}}" formControlName="LastName">
+                <p class="error" *ngIf="form.get('LastName').hasError('required') && form.get('LastName').touched">{{messageService.messages['required-field']}}</p>
+                <p  class="error" *ngIf="form.get('LastName').hasError('maxlength') && form.get('LastName').touched">{{labelService.labels['max']}} 12 {{labelService.labels['char']}}</p>
+
+            </div>
+        </div>
+        <div class="form-row" *ngIf="user == null">
+            <div class="form-group col-md-6">
+                <label for="Password">{{labelService.labels['password']}}</label>
+                <div class="input-group">
+                    <input class="form-control" type="password" id="password" formControlName="Password" autocomplete="off">
+                    <div class="input-group-addon">
+                        <a (click)="togglePassword('password','eye')">
+                            <span>
+                            <i class="fa fa-eye-slash" id="eye" aria-hidden="true"></i>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+                <p  class="error" *ngIf="form.get('Password').hasError('maxlength') && form.get('Password').touched">{{labelService.labels['max']}} 12 {{labelService.labels['char']}}</p>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="PasswordTwo">{{labelService.labels['password']}}</label>
+                <div class="input-group">
+                    <input class="form-control" type="password" id="passwordtwo" formControlName="Password2" autocomplete="off">
+                    <div class="input-group-addon">
+                        <a (click)="togglePassword('passwordtwo','eyetwo')">
+                            <span>
+                                <i class="fa fa-eye-slash" id="eyetwo" aria-hidden="true"></i>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <form class="needs-validation" [formGroup]="form" *ngIf="changePassword">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label class="ml-2">Email</label>
+                <span class="text-success d-block ml-2">{{user.Email}}</span>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="Password" class="ml-2">{{labelService.labels['password']}}</label>
+                <div class="input-group">
+                    <input class="form-control ml-2" type="password" id="password" formControlName="Password" autocomplete="off">
+                    <div class="input-group-addon">
+                        <a (click)="togglePassword('password','eye')">
+                            <span>
+                                <i class="fa fa-eye-slash" id="eye" aria-hidden="true"></i>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+                <p  class="error" *ngIf="form.get('Password').hasError('maxlength') && form.get('Password').touched">{{labelService.labels['max']}} 12 {{labelService.labels['char']}}</p>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="PasswordTwo" class="ml-2">{{labelService.labels['password']}}</label>
+                <div class="input-group">
+                    <input class="form-control ml-2" type="password" id="passwordtwo" formControlName="Password2" autocomplete="off">
+                    <div class="input-group-addon">
+                        <a (click)="togglePassword('passwordtwo','eyetwo')">
+                            <span>
+                                <i class="fa fa-eye-slash" id="eyetwo" aria-hidden="true"></i>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="close()">{{labelService.labels['cancel']}}</button>
+    <button type="button" class="btn btn-success" (click)="save()" [disabled]="form.invalid">{{labelService.labels['save']}}</button>
+</div>

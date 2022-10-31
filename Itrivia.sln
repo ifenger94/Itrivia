@@ -15,11 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITrivia.Contracts", "ITrivi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITrivia.Domain", "ITrivia.Domain\ITrivia.Domain.csproj", "{E9E58FB7-C17F-4B5B-8B3F-7A99A8B6AA76}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITrivia.Helpers", "ITrivia.Helpers\ITrivia.Helpers.csproj", "{41597A25-A192-497A-82E7-FCF7EB3E5DAB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITrivia.Helpers", "ITrivia.Helpers\ITrivia.Helpers.csproj", "{41597A25-A192-497A-82E7-FCF7EB3E5DAB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITrivia.Facade", "ITrivia.Facade\ITrivia.Facade.csproj", "{6D23C645-0498-4EB5-90A0-28A1D2C7F5C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITrivia.Facade", "ITrivia.Facade\ITrivia.Facade.csproj", "{6D23C645-0498-4EB5-90A0-28A1D2C7F5C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITrivia.UI", "ITrivia.UI\ITrivia.UI.csproj", "{F6DB6521-8427-4686-B236-90F98C36C7F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITrivia.UI", "ITrivia.UI\ITrivia.UI.csproj", "{F6DB6521-8427-4686-B236-90F98C36C7F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,7 +62,6 @@ Global
 		{6D23C645-0498-4EB5-90A0-28A1D2C7F5C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D23C645-0498-4EB5-90A0-28A1D2C7F5C0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F6DB6521-8427-4686-B236-90F98C36C7F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F6DB6521-8427-4686-B236-90F98C36C7F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6DB6521-8427-4686-B236-90F98C36C7F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6DB6521-8427-4686-B236-90F98C36C7F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection

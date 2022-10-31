@@ -1,0 +1,39 @@
+<body>
+
+    <div class="wrapper fadeInDown" *ngIf="!!currentUser">
+        <div id="formContent">
+            <!-- Tabs Titles -->
+            <div style="text-align:center">
+                <span class="pro">{{currentUser.Rol.Name}}</span>
+                <img *ngIf="currentUser.Image" src="{{currentUser.Image.Url_Image}}" class="profile_image round" alt="">
+                <div class="info">
+                    <h4>{{currentUser.Name}} {{currentUser.LastName}}</h4>
+                    <button class="btn color-a top"
+                        [routerLink]="'/Managment/sections'" *ngIf="!!currentUser.Profile">{{labelService.labels['explore-sections']}}</button>
+                </div>
+
+            </div>
+            <div class="container mt-5">
+                <div class="content">
+                    <div class="grid-2" *ngIf="!!currentUser.Profile">
+                        <button class="color-c circule" title="{{labelService.labels['exp']}}"><i
+                                class="fas fa-gamepad fa-2x"></i></button>
+                        <h2 class="title-2">{{currentUser.Profile.Experience}} EXP</h2>
+                    </div>
+                    <div class="grid-2" *ngIf="!!currentUser.Profile">
+                        <button class="color-b circule" title="{{labelService.labels['user']}}"> <i
+                            class="fas fa-user-graduate fa-2x"></i></button>
+                        <h2 class="title-2">
+                            {{labelService.labels['user']}}</h2>
+                    </div>
+                    <div class="grid-2" *ngIf="!!currentUser.Profile">
+                        <button class="color-d circule" title="{{labelService.labels['challenges-completed']}}"><i
+                                class="fas fa-graduation-cap fa-2x"></i></button>
+                        <h2 class="title-2">{{hisProfileChallenge.length}} CTD.</h2>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>

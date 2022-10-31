@@ -1,0 +1,18 @@
+span i{
+    width: 90%;
+    position: relative;
+    right: 40px;
+    transform: translate(0, -50%);
+    top: 15px;
+    cursor: pointer;
+    color: #5b5d5f;
+  }
+  
+  span i:hover {
+    color: rgb(97, 221, 132);
+  }
+  
+  .error {
+    color: rgb(208, 7, 7);
+    font-size: 14px;
+  }

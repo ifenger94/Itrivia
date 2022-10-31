@@ -1,0 +1,12 @@
+<div class="chartjs-block ubication" >
+    <h1 class=""><img src="../../../../../assets/icons/chart.png" alt=""> {{labelService.labels['exp-weekly2']}}</h1>
+    <canvas baseChart 
+        [datasets]="lineChartData" 
+        [labels]="lineChartLabels" 
+        [options]="lineChartOptions"
+        [colors]="lineChartColors" 
+        [legend]="lineChartLegend" 
+        [chartType]="lineChartType" 
+        [plugins]="lineChartPlugins">
+    </canvas>
+</div>

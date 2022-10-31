@@ -12,9 +12,12 @@ using ITrivia.Facade.Managment;
 using ITrivia.Facade.User;
 using ITrivia.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -120,10 +123,32 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     {
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(ConstantsHelper.KeyForHmacSha256),
-        ValidateAudience = true,
-        ValidateIssuer = true
+        ValidateAudience = false,
+        ValidateIssuer = false
     };
 });
+
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      builder =>
+                      {
+                          builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+                      });
+});
+
+builder.Services.AddControllers().AddJsonOptions(options => {
+    options.JsonSerializerOptions.DictionaryKeyPolicy = null;
+    options.JsonSerializerOptions.PropertyNamingPolicy = null;
+});
+
+builder.Services.Configure<JsonOptions>(options =>
+{
+    options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -132,6 +157,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(MyAllowSpecificOrigins);
+
 app.UseAuthentication();
 app.UseAuthorization();
 

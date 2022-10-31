@@ -66,9 +66,9 @@ namespace Itrivia.WebApi.Controllers.Security
             catch (Exception e)
             {
 
-                return Problem(detail: e.Message, statusCode: StatusCodes.Status500InternalServerError); 
+                return Problem(detail: e.Message, statusCode: StatusCodes.Status500InternalServerError);
             }
-            
+
 
         }
 
@@ -78,14 +78,19 @@ namespace Itrivia.WebApi.Controllers.Security
             try
             {
                 string oldToken = JwtManagmentHelper.RetrieveAuthorizationFromHeader(Request);
-                UserToken userToken = jwtHelper.RefreshToken(oldToken, configuration.GetValue<double>("JWTRefreshExpirationInMinutes"));
-                UserToken authData = new UserToken()
+                if (!string.IsNullOrEmpty(oldToken))
                 {
-                    Token = userToken.Token,
-                    ExpirationDate = userToken.ExpirationDate
-                };
+                    UserToken userToken = jwtHelper.RefreshToken(oldToken, configuration.GetValue<double>("JWTRefreshExpirationInMinutes"));
+                    UserToken authData = new UserToken()
+                    {
+                        Token = userToken.Token,
+                        ExpirationDate = userToken.ExpirationDate
+                    };
 
-                return Ok(userToken);
+                    return Ok(userToken);
+                }
+                
+                return BadRequest();
             }
             catch (Exception e)
             {

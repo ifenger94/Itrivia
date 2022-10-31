@@ -1,0 +1,43 @@
+.editIcon {
+  -webkit-text-fill-color: white;
+  -webkit-text-stroke-width: 1.5px;
+  -webkit-text-stroke-color: rgb(86, 198, 238);
+}
+
+.deleteIcon {
+  -webkit-text-fill-color: white;
+  -webkit-text-stroke-width: 1.5px;
+  -webkit-text-stroke-color: rgb(237, 79, 134);
+}
+
+.editIcon:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+.deleteIcon:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+tr td {
+  text-align: center;
+}
+
+td i {
+  padding: 3px;
+  margin-left: 20px;
+}
+
+
+.bordered {
+  border: solid #ccc 1px;
+  -webkit-box-shadow: 0 3px 3px #ccc;
+  -moz-box-shadow: 0 3px 3px #ccc;
+  box-shadow: 0 3px 3px #ccc;
+}
+
+.error {
+  color: rgb(208, 7, 7);
+  font-size: 14px;
+}

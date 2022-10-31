@@ -1,0 +1,21 @@
+<div class="courses-container animated fadeInRight">
+	
+	<div class="course"  [ngClass]="{'card-was-gamed': wasPlayed}">
+		
+		<div class="course-preview" style="background-image: url({{urlSection}});">
+			<h2 class="name" style="word-wrap: break-word;">{{nameChallenge}}</h2>
+			<p class="exp">EXP : {{expChallenge}}</p>
+			<div class="activa_hover"></div>
+			</div>
+		<div class="course-info">
+			<div class="progress-container">
+				<span class="progress-text">
+					{{etapasChallenge}} {{labelService.labels['challenges']}}
+				</span>
+			</div>
+			<h6>{{labelService.labels['chapter']}} {{nroChapter}}</h6>
+			<p class="desc">{{descChallenge}}</p>
+			<button [disabled]="wasPlayed" class="btn" (click)="navigate(idChallenge)">{{labelService.labels['play']}}</button>
+		</div>
+	</div>
+</div>

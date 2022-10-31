@@ -1,0 +1,20 @@
+<body>
+    <div class="container" >
+       
+    </div>
+        <div class="container-cards" *ngIf="!!section">
+            <h1 class="title">{{labelService.labels['challenges']}}</h1>
+            <div *ngFor="let list of challengesList ;let indice=index">
+                <app-card-challenges
+                [nroChapter]="indice+1"
+                [idChallenge]="list.Id"
+                [nameChallenge]="list.Name" 
+                [descChallenge]="list.Description"
+                [expChallenge]="list.Experience"
+                [etapasChallenge]="list.StepsCount"
+                [urlSection]="section.Url_Image"
+                [wasPlayed]="wasPlayed(list.Id)"
+                ></app-card-challenges>
+            </div>
+        </div>
+</body>

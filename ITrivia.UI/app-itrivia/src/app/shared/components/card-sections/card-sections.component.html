@@ -1,0 +1,24 @@
+<ul>
+  <li class="booking-card" style="background-image: url({{imageSection}});">
+    <div class="book-container">
+      <div class="content">
+        <button class="btn" [routerLink]="['/Managment/challenges',idSection]">{{labelService.labels['enter']}}</button>
+      </div>
+    </div>
+    <div class="informations-container">
+      <h2 class="title" style="word-wrap: break-word;">{{nameSection}}</h2>
+
+      <div class="more-information">
+        <div class="info-and-date-container">
+
+        </div>
+            <div style="word-wrap: break-word;">
+              <ol class="disclaimer">
+                <li>{{countChallenge}} {{formatLabelChallenge(labelService.labels['challenges'])}}</li>
+                <li  >{{descSection}}</li>
+              </ol>
+          </div>
+      </div>
+    </div>
+  </li>
+</ul>
