@@ -1,0 +1,91 @@
+<div class="container" *ngIf="loading">
+    <h1>{{messageService.messages['abm-sections']}}</h1>
+    <hr>
+    <button type="button" class="btn" (click)="open(contenido,'create')"><i class="fas fa-plus"></i> {{labelService.labels['new']}}</button>
+    <table class="table bordered">
+        <thead class="thead-dark">
+            <tr class="title">
+                <th scope="col">#</th>
+                <th scope="col">{{labelService.labels['name']}}</th>
+                <th scope="col">{{labelService.labels['category']}}</th>
+                <th scope="col">{{messageService.messages['amount-challenges']}}</th>
+                <th scope="col">{{messageService.messages['discharge-date']}}</th>
+                <th scope="col">{{labelService.labels['state']}}</th>
+                <th scope="col">{{labelService.labels['action']}}</th>
+            </tr>
+        </thead>
+        <!-- <ul *ngFor="let list of categoriesList">
+          <li>{{list.Name}}</li>
+        </ul> -->
+        <tbody  *ngFor="let list of sectionsList | paginate:{itemsPerPage: 10, currentPage: page};let indice=index">
+            <tr *ngIf="list">
+                <th scope="row">{{indice+1}}</th>
+                <td>{{list.Name}}</td>
+                <td>{{list.Category.Name}}</td>
+                <td>{{list.ChallengeCount}}</td>
+                <td>{{list.CreateDate | date: 'dd/MM/yyyy'}}</td>
+                <td><span><i class="fas fa-check-circle" [ngClass]="{'editCircleEnabled': list.Activated,'editCircleDisabled': !list.Activated}"></i></span></td>
+                <td><a  title="{{messageService.messages['edit-s']}}" (click)="open(contenido,'edit')" (click)="getData(list.Id)"><i class="fas fa-highlighter editIcon"></i></a>
+                  <a title="{{messageService.messages['del-s']}}" (click)="deleteSection(list.Id)"><i class="fas fa-trash deleteIcon"></i></a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="mt-5" style="text-align: right;">
+      <pagination-controls responsive="true" autoHide="true" (pageChange)="page = $event"></pagination-controls>
+    </div>
+</div>
+<!-- Modal -->
+<ng-template #contenido let-model id="modal">
+    <div class="modal-header">
+     <h4 class="modal-title">{{messageService.messages['abm-sections']}}</h4>
+     <button class="close" aria-label="close" type="button" (click)="modal.dismissAll()">
+       <span aria-hidden="true">&times;</span>
+     </button>
+    </div>
+    <div class="modal-body" >
+      <form class="needs-validation" [formGroup]="form">
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="name">{{labelService.labels['name']}}</label>
+            <input type="name" class="form-control" id="name" placeholder="{{labelService.labels['name']}}"  formControlName="Name">
+            <p  class="error" *ngIf="form.get('Name').hasError('required') && form.get('Name').touched">{{messageService.messages['required-field']}}</p>
+            <p  class="error" *ngIf="form.get('Name').hasError('maxlength') && form.get('Name').touched">{{labelService.labels['max']}} 15 {{labelService.labels['char']}}</p>
+
+          </div>
+          <div class="form-group col-md-6">
+            <label for="CategoryId" >{{labelService.labels['category']}}</label>
+            <select id="CategoryId" class="form-control" formControlName="CategoryId">
+              <option value="null" selected>{{messageService.messages['select-category']}}</option>
+              <option *ngFor="let list of categoriesList" id="CategoryId" class="form-control" value="{{list.Id}}" selected>{{list.Name}}</option>
+            </select>
+            <p  class="error" *ngIf="form.get('CategoryId').errors && form.get('CategoryId').touched">{{messageService.messages['required-field']}}</p>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="ChallengeCount">{{messageService.messages['amount-challenges']}}</label>
+            <input type="number" class="form-control" id="ChallengeCount" placeholder="{{messageService.messages['amount-challenges']}}" formControlName="ChallengeCount">
+            <p  class="error" *ngIf="form.get('ChallengeCount').hasError('required') && form.get('ChallengeCount').touched">{{messageService.messages['required-field']}}</p>
+            <p  class="error" *ngIf="form.get('ChallengeCount').hasError('min') && form.get('ChallengeCount').touched">{{labelService.labels['min']}} 1</p>
+            <p  class="error" *ngIf="form.get('ChallengeCount').hasError('max') && form.get('ChallengeCount').touched">{{labelService.labels['max']}} 15</p>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="Url_Image">{{messageService.messages['url-image']}}</label>
+            <input class="form-control" id="Url_Image" placeholder="{{messageService.messages['url-image']}}"  formControlName="Url_Image">
+            <p  class="error" *ngIf="form.get('Url_Image').hasError('required')  && form.get('Url_Image').touched">{{messageService.messages['required-field']}}</p>
+            <p  class="error" *ngIf="form.get('Url_Image').hasError('maxlength') && form.get('Url_Image').touched">{{labelService.labels['max']}} 150 {{labelService.labels['char']}}</p>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="description">{{messageService.messages['description']}}</label>
+          <textarea class="form-control" id="description" rows="4" placeholder="{{labelService.labels['max-length']}}" style="resize: none;"  formControlName="Description"></textarea>
+          <p  class="error" *ngIf="form.get('Description').hasError('required')  && form.get('Description').touched">{{messageService.messages['required-field']}}</p>
+          <p  class="error" *ngIf="form.get('Description').hasError('maxlength') && form.get('Description').touched">{{labelService.labels['max']}} 50 {{labelService.labels['char']}}</p>
+
+        </div>
+           </form>
+    </div>
+    <div class="modal-footer" >
+      <button type="submit" class="btn btn-success" (click)="onSubmit(id)"  [disabled]="form.invalid">{{labelService.labels['save']}}</button>
+    </div>
+  </ng-template>
+  <!-- Modal -->

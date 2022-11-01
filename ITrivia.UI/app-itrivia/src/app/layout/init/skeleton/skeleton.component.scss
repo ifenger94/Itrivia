@@ -1,0 +1,20 @@
+.background{
+    position: fixed;
+    background-color: rgb(255, 255, 255);
+    width: 1000%;
+    height: 1000%;
+    left:0;
+    top:0;
+    border: none;
+}
+.full-loader{
+    background-image:("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWtHlz4M6N9qjEl80Mj8all_GhCDydn0CyuA&usqp=CAU")cover;
+    position: fixed;
+    top:350px;
+    left: 0;
+    right: 0;
+    width: 40%;
+    height: 40%;
+    display:block;
+    margin:auto;
+}

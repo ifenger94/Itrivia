@@ -6,16 +6,16 @@ namespace Itrivia.WebApi.Controllers.Parameter
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MessageController : ControllerBase
+    public class MessagesController : ControllerBase
     {
         private IMessageDomain messageDomain;
 
-        public MessageController(IMessageDomain messageDomain)
+        public MessagesController(IMessageDomain messageDomain)
         {
             this.messageDomain = messageDomain;
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public IDictionary<string, string> Get(string id)
         {
             return messageDomain.GetMessages(id);

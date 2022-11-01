@@ -73,7 +73,7 @@ namespace Itrivia.WebApi.Controllers.Managment
             }
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] ProfileDto profile)
         {
             try
@@ -94,7 +94,7 @@ namespace Itrivia.WebApi.Controllers.Managment
             }
         }
 
-        [HttpPut("AddExperence")]
+        [HttpPut("AddExperence/{id}")]
         public IActionResult AddExperence(int id, [FromQuery] int challengeId)
         {
             try
@@ -124,7 +124,8 @@ namespace Itrivia.WebApi.Controllers.Managment
                 return Problem(detail: e.Message, statusCode: StatusCodes.Status500InternalServerError);
             }
         }
-        [HttpDelete]
+        
+        [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
             try

@@ -62,7 +62,7 @@ namespace Itrivia.WebApi.Controllers.Managment
         }
 
         [HttpGet("GetSectionFilter")]
-        public IActionResult GetSectionFilter([FromQuery] int profileId, int? categoryId, string search)
+        public IActionResult GetSectionFilter([FromQuery] int profileId, [FromQuery] int? categoryId, [FromQuery] string? search)
         {
             try
             {
@@ -98,7 +98,7 @@ namespace Itrivia.WebApi.Controllers.Managment
             }
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] SectionDto seccion)
         {
             try

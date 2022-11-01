@@ -1,0 +1,88 @@
+@import url("https://fonts.googleapis.com/css2?family=Varela+Round&display=swap");
+
+h1 {
+  padding-top: 70px;
+  font-size: 22px;
+  color: rgb(72, 72, 72);
+  font-family: "Varela Round", sans-serif;
+}
+
+.container {
+  padding-top: 70px;
+  font-family: "Varela Round", sans-serif;
+}
+
+.bordered {
+  border: solid #ccc 1px;
+  -moz-border-radius: 20px;
+  -webkit-box-shadow: 0 3px 3px #ccc;
+  -moz-box-shadow: 0 3px 3px #ccc;
+  box-shadow: 0 3px 3px #ccc;
+}
+
+.title {
+  text-align: center;
+}
+tr td {
+  text-align: center;
+}
+td i {
+  padding: 3px;
+  margin-left: 20px;
+}
+
+.btn {
+  background-color: rgb(27, 184, 137);
+  color: white;
+  font-weight: bolder;
+  margin-bottom: 40px;
+}
+
+.btn i {
+  padding: 4px;
+}
+
+.footer-msg {
+  font-size: 12px;
+  text-align: left;
+  margin-right: 800px;
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.editIcon {
+  -webkit-text-fill-color: white;
+  -webkit-text-stroke-width: 1.5px;
+  -webkit-text-stroke-color: rgb(86, 198, 238);
+}
+
+.keyIcon {
+  -webkit-text-fill-color: white;
+  -webkit-text-stroke-width: 1.5px;
+  -webkit-text-stroke-color: #495057;
+}
+
+.deleteIcon {
+  -webkit-text-fill-color: white;
+  -webkit-text-stroke-width: 1.5px;
+  -webkit-text-stroke-color: rgb(237, 79, 134);
+}
+
+.editIcon:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+.deleteIcon:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+.keyIcon:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}

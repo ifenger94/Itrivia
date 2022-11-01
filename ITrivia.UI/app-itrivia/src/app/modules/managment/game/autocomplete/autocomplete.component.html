@@ -1,0 +1,16 @@
+<div class="container">
+    <div class="jimmy-think">
+        <img src="../../../../../assets/img-game/matt-you.png" alt="">
+        <h1 *ngIf="enunciate.length > 0">
+            {{enunciate[0]}}<span [ngClass]="{'text-success': showAnswer} ">{{answer}}</span> {{enunciate[1]}}
+        </h1>
+    </div>
+    <div class="form-group">
+        <input type="email" class="form-control" id="exampleInputEmail1" [(ngModel)]="inputText" maxlength="30"
+            placeholder="Escribe algo...">
+        <button type="button" class="btn mt-5 btn-lg btn-block" [disabled]="showAnswer" (click)="validate()"
+            [ngClass]="{'btn-danger': showAnswer && !isValid && !loading,'btn-success': showAnswer && isValid && !loading,'btn-info':!showAnswer}">
+            <span *ngIf="!loading">COMPROBAR</span>
+            <span *ngIf="loading" class="spinner-border"></span></button>
+    </div>
+</div>

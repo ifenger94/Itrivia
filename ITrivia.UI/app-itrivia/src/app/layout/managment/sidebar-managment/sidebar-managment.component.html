@@ -1,0 +1,46 @@
+<input type="checkbox" id="check">
+<!--header area start-->
+<header>
+    <label for="check">
+    </label>
+    <div class="left_area">
+        <a href="">
+            <h3><i class="fas fa-graduation-cap"></i></h3>
+        </a>
+    </div>
+    <div class="right_area">
+        <!-- <p class="exp"></p> <a class="light" href="#"><img src="../../../../assets/icons/life.png"></a>EXP :</p> -->
+        <p class="light" *ngIf="!!currentUser && !!currentUser.Profile" title="{{labelService.labels['exp']}}">
+            <span>{{currentUser.Profile.Experience}}</span><img src="../../../../assets/icons/life.png"
+                title="{{labelService.labels['exp']}}"></p>
+        <!-- <a class="store" href="#"><img src="../../../../assets/icons/shop.png"></a> -->
+        <a class="language-en" (click)="changeLanguageEn()"><img src="https://i.ibb.co/dGJY42P/pngegg-9.png"></a>
+        <a class="language-es" (click)="changeLanguageEs()"><img src="https://i.ibb.co/yPDNr0Q/pngegg-12.png"></a>
+
+    </div>
+</header>
+<!--header area end-->
+<!--sidebar start-->
+<div class="sidebar" *ngIf="!!currentUser" [ngClass]="{'hideMenu': !menuSerivce.showMenu}">
+
+    <div style="text-align:center">
+        <img *ngIf="!!currentUser.Image" src="{{currentUser.Image.Url_Image}}"
+            class="profile_image" alt="">
+        <!-- Flecha para ocultar SideBar -->
+        <label for="check">
+            <i class="fas fa-chevron-circle-right hide-side" id="ocultar_btn"
+                (click)="this.menuSerivce.showMenu = !this.menuSerivce.showMenu"></i>
+        </label>
+        <!-- //Flecha para ocultar SideBar -->
+        <h4 [ngClass]="{'hideItems' : !menuSerivce.showMenu}">{{currentUser.Name}}</h4>
+        <p [ngClass]="{'hideItems' : !menuSerivce.showMenu}">{{currentUser.Rol.Name}}</p>
+        <hr>
+    </div>
+    <div class="items" [ngClass]="{'hideItems' : !menuSerivce.showMenu}">
+        <ng-container *ngFor="let item of menu">
+            <app-left-nav-menu [leftNavMenu]="item"></app-left-nav-menu>
+        </ng-container>
+        <app-left-nav-menu [leftNavMenu]="logoutMenu"></app-left-nav-menu>
+    </div>
+
+</div>

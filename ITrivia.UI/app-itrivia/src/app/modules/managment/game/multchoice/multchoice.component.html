@@ -1,0 +1,13 @@
+<ng-container *ngIf="!loading">
+    <div class="container">
+        <div class="jimmy-think">
+            <img src="../../../../../assets/img-game/matt-thinking1.png" alt="">
+            <h1>{{item.Enunciate}}</h1>
+        </div>
+        <div class="form-group" #buttonOptions>
+            <ng-container *ngFor="let item of options;let i=index">
+                <button [disabled]="showAnswer" type="button" class="btn btn-light mt-5 btn-block" [ngClass]="{'btn-light': !showAnswer,'btn-success': showAnswer && isRight(i),'btn-danger': showAnswer && !isRight(i)}" (click)="validate(item)">{{item}}</button>
+            </ng-container>
+        </div>
+    </div>
+</ng-container>

@@ -1,0 +1,45 @@
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
+</head>
+
+<body>
+
+  <div class="wrapper fadeInDown">
+    <div id="formContent">
+      <!-- Tabs Titles -->
+      <h2 class="active">{{labelService.labels['login']}}</h2>
+      <h2 class="inactive underlineHover" [routerLink]="'/register'">{{labelService.labels['signup']}}</h2>
+
+
+
+      <!-- Login Form -->
+      <form [formGroup]="loginForm" (ngSubmit)="Authenticate()">
+        <input type="text" id="email" class="fadeIn third" formControlName="email"
+          placeholder="{{labelService.labels['email']}}" (change)="changeForm()">
+        <div class="wraper">
+          <input type="password" id="password" class="fadeIn third" formControlName="password"
+            placeholder="{{labelService.labels['password']}}" (change)="changeForm()">
+          <span>
+            <i class="fas fa-eye-slash" id="eye" (click)="togglePassword()"></i>
+          </span>
+        </div>
+        <input *ngIf="!loading" type="submit" class="fadeIn fourth" [ngStyle]="{'background-color':loginForm.invalid  ? '#795f47':'' }"
+          [disabled]="loginForm.invalid" value="{{labelService.labels['login']}}">
+          <ng-container *ngIf="loading">
+            <i class="fa fa-spinner fa-pulse fa-2x fa-fw mt-2"></i>
+          </ng-container>
+        <br>
+        <span *ngIf="errorLogin"
+          class="fadeIn fourth text-danger">{{messageService.messages['validate-password-login']}}</span>
+      </form>
+      <input type="checkbox"  [(ngModel)]="remember">
+      <span>{{messageService.messages['remembersession']}}</span>
+      <!-- Remind Passowrd -->
+      <div id="formFooter">
+        <!-- <a class="underlineHover" 
+          >{{messageService.messages['forgot-password']}}</a> -->
+      </div>
+    </div>
+  </div>
+</body>

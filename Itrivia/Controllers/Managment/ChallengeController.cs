@@ -60,7 +60,8 @@ namespace Itrivia.WebApi.Controllers.Managment
             }
         }
 
-        [HttpGet("{sectionId}/Challenge")]
+        [HttpGet]
+        [Route("/api/Section/{sectionId}/Challenge")]
         public IActionResult GetChallengeBySectionId(int sectionId)
         {
             try

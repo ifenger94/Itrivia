@@ -1,0 +1,36 @@
+<div class="container" *ngIf="loading">
+    <h1>{{messageService.messages['abm-users']}}</h1>
+    <hr>
+    <button *ngIf="!!currentUser" type="button" class="btn" (click)="add()"><i class="fas fa-plus"></i> {{labelService.labels['new']}}</button>
+    <table class="table bordered">
+        <thead class="thead-dark">
+            <tr class="title">
+                <th scope="col">#</th>
+                <th scope="col">{{labelService.labels['fullname']}}</th>
+                <th scope="col">{{labelService.labels['email']}}</th>
+                <th scope="col">{{messageService.messages['discharge-date']}}</th>
+                <th scope="col">{{labelService.labels['action']}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let list of usersList | paginate:{itemsPerPage: 10, currentPage: page};let indice=index">
+                <th scope="row">{{indice+1}}</th>
+                <td>{{list.Name}} {{list.LastName}}</td>
+                <td>{{list.Email}}</td>
+                <td>{{list.CreateDate | date: 'dd/MM/yyyy'}}</td>
+                <td><a title="{{messageService.messages['edit-u']}}" (click)="edit(list)"><i class="fas fa-highlighter editIcon"></i></a>
+                    <a title="{{messageService.messages['edit-uc']}}" (click)="changePassword(list)"><i class="fas fa-key keyIcon"></i></a>
+                    <a title="{{messageService.messages['del-u']}}" (click)="delete(list.Id)"><i class="fas fa-trash deleteIcon"></i></a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="form-row" *ngIf="!!currentUser">
+        <div class="col-md-12 text-right" >
+            <!-- <span style="font-size: 0.6vw;">{{messageService.messages['users-quantity']}}{{usersList.length}}/{{currentUser.Company.UserCount}}</span> -->
+        </div>
+    </div>
+    <div class="mt-5" style="text-align: right;">
+        <pagination-controls responsive="true" autoHide="true" (pageChange)="page = $event"></pagination-controls>
+      </div>
+</div>

@@ -1,0 +1,176 @@
+<div class="modal-header">
+    <h4 class="modal-title">Games</h4>
+    <button class="close" aria-label="close" type="button" (click)="close()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <!-- Grilla de juegos -->
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table bordered" *ngIf="steps.length >0">
+                <thead class="thead-dark">
+                    <tr class="title" style="text-align: center;">
+                        <th scope="col">{{labelService.labels['step']}}</th>
+                        <th scope="col">{{labelService.labels['name']}}</th>
+                        <th scope="col">{{labelService.labels['type-game']}}</th>
+                        <th scope="col">{{messageService.messages['discharge-date']}}</th>
+                        <th scope="col">{{labelService.labels['action']}}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let step of steps;let indice=index">
+                        <td >{{indice+1}}</td>
+                        <td >{{step.Name}}</td>
+                        <td >{{getGameTypeName(step.GameTypeId)}}</td>
+                        <td>{{step.CreateDate | date: 'dd/MM/yyyy'}}</td>
+                        <td>
+                            <a (click)="edit(step.Id,indice)" title="{{messageService.messages['edit-st']}}"><i class="fas fa-highlighter editIcon"></i></a>
+                            <a (click)="deleteStep(step.Id)" title="{{messageService.messages['del-st']}}"><i class="fas fa-trash deleteIcon"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div *ngIf="steps.length==0">
+                <div style="padding:10px;text-align:center;">
+                    <span class="text-info">{{messageService.messages['steps-empty']}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p style="float: right;margin-right: 10px;font-size: 14px;">{{messageService.messages['steps-quantity']}} {{steps.length}}/{{challenges}}</p>
+            <button [disabled]="steps.length == challenges" type="button" class="btn btn-outline-warning" style="margin-left: 10px;font-size: 0.6vw;" (click)="add()"><i class="fas fa-plus"></i>
+                {{labelService.labels['new']}}</button>
+    <div *ngIf="activeForm" class="mt-4">
+        <form [formGroup]="formStep">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="name" *ngIf="!!isNew">{{labelService.labels['name']}}</label>
+                    <input type="name" class="form-control" id="name" formControlName="Name" *ngIf="!!isNew">
+                    <p class="error" *ngIf="formStep.get('Name').hasError('required') && formStep.get('Name').touched">{{messageService.messages['required-field']}}</p>
+                    <p  class="error" *ngIf="formStep.get('Name').hasError('maxlength') && formStep.get('Name').touched">{{labelService.labels['max']}} 15 {{labelService.labels['char']}}</p>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="GameTypeId" *ngIf="!!isNew">{{labelService.labels['type-game']}}</label>
+                    <select id="GameTypeId"   class="form-control" formControlName="GameTypeId" [disabled]="!!this.isNew" *ngIf="!!isNew">
+                        <option value="null" selected >{{messageService.messages['select-game']}}</option>
+                        <option *ngFor="let gt of gameTypes" value="{{gt.Id}}" selected>{{gt.Name}}</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+        <div *ngIf="!!selectedGameType && selectedGameType.Code == 'AUTCOMPLETADO'">
+            <form [formGroup]="formAutoComplete">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="Enunciate">{{labelService.labels['enunciate']}}</label>
+                        <input type="Enunciate" class="form-control" id="Enunciate" formControlName="Enunciate">
+                        <p class="error" *ngIf="formAutoComplete.get('Enunciate').hasError('required') && formAutoComplete.get('Enunciate').touched">{{messageService.messages['required-field']}}</p>
+                        <p  class="error" *ngIf="formAutoComplete.get('Enunciate').hasError('maxlength') && formAutoComplete.get('Enunciate').touched">{{labelService.labels['max']}} 75 {{labelService.labels['char']}}</p>
+                        <p  class="error" *ngIf="!formAutoComplete.get('Enunciate').hasError('required') && formAutoComplete.get('Enunciate').hasError('validateMark') && formAutoComplete.get('Enunciate').touched">
+                            {{messageService.messages['errormark']}}
+                        </p>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="Answer">{{messageService.messages['answer-correct']}}</label>
+                        <input type="Answer" class="form-control" id="Answer" formControlName="Answer">
+                        <p class="error" *ngIf="formAutoComplete.get('Answer').hasError('required') && formAutoComplete.get('Answer').touched">{{messageService.messages['required-field']}}</p>
+                        <p  class="error" *ngIf="formAutoComplete.get('Answer').hasError('maxlength') && formAutoComplete.get('Answer').touched">{{labelService.labels['max']}} 15 {{labelService.labels['char']}}</p>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div *ngIf="!!selectedGameType && selectedGameType.Code == 'MULCHOICE'">
+            <form [formGroup]="formMultChoice">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="Enunciate">{{labelService.labels['enunciate']}}</label>
+                        <input type="Enunciate" class="form-control" id="Enunciate" formControlName="Enunciate">
+                        <p class="error" *ngIf="formMultChoice.get('Enunciate').hasError('required') && formMultChoice.get('Enunciate').touched">{{messageService.messages['required-field']}}</p>
+                        <p class="error" *ngIf="formMultChoice.get('Enunciate').hasError('maxlength') && formMultChoice.get('Enunciate').touched">{{labelService.labels['max']}} 75 {{labelService.labels['char']}}</p>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="CorrectOption">{{messageService.messages['answer-correct']}}</label>
+                        <input type="CorrectOption" class="form-control" id="CorrectOption" formControlName="CorrectOption">
+                        <p class="error" *ngIf="formMultChoice.get('CorrectOption').hasError('required') && formMultChoice.get('CorrectOption').touched">{{messageService.messages['required-field']}}</p>
+                        <p class="error" *ngIf="formMultChoice.get('CorrectOption').hasError('maxlength') && formMultChoice.get('CorrectOption').touched">{{labelService.labels['max']}} 40 {{labelService.labels['char']}}</p>
+
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="FirstOption">{{messageService.messages['answer-incorrect']}}</label>
+                        <input type="FirstOption" class="form-control" id="FirstOption" formControlName="FirstOption">
+                        <p class="error" *ngIf="formMultChoice.get('FirstOption').hasError('required') && formMultChoice.get('FirstOption').touched">{{messageService.messages['required-field']}}</p>
+                        <p class="error" *ngIf="formMultChoice.get('FirstOption').hasError('maxlength') && formMultChoice.get('FirstOption').touched">{{labelService.labels['max']}} 40 {{labelService.labels['char']}}</p>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="SecondOption">{{messageService.messages['answer-incorrect']}}</label>
+                        <input type="SecondOption" class="form-control" id="SecondOption" formControlName="SecondOption">
+                        <p class="error" *ngIf="formMultChoice.get('SecondOption').hasError('required') && formMultChoice.get('SecondOption').touched">{{messageService.messages['required-field']}}</p>
+                        <p class="error" *ngIf="formMultChoice.get('SecondOption').hasError('maxlength') && formMultChoice.get('SecondOption').touched">{{labelService.labels['max']}} 40 {{labelService.labels['char']}}</p>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div *ngIf="!!selectedGameType && selectedGameType.Code == 'SELCPARES'">
+            <form [formGroup]="formPairSelection">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="FirstOption">{{labelService.labels['option']}} 1</label>
+                        <input type="FirstOption" class="form-control" id="FirstOption" formControlName="FirstOption">
+                        <p class="error" *ngIf="formPairSelection.get('FirstOption').hasError('required') && formPairSelection.get('FirstOption').touched">{{messageService.messages['required-field']}}</p>
+                        <p  class="error" *ngIf="formPairSelection.get('FirstOption').hasError('maxlength') && formPairSelection.get('FirstOption').touched">{{labelService.labels['max']}} 18 {{labelService.labels['char']}}</p>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="FirstAnswer">{{labelService.labels['answer']}} 1</label>
+                        <input type="FirstAnswer" class="form-control" id="FirstAnswer" formControlName="FirstAnswer">
+                        <p class="error" *ngIf="formPairSelection.get('FirstAnswer').hasError('required') && formPairSelection.get('FirstAnswer').touched">{{messageService.messages['required-field']}}</p>
+                        <p class="error" *ngIf="formPairSelection.get('FirstAnswer').hasError('maxlength') && formPairSelection.get('FirstAnswer').touched">{{labelService.labels['max']}} 18 {{labelService.labels['char']}}</p>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="SecondOption">{{labelService.labels['option']}} 2</label>
+                        <input type="SecondOption" class="form-control" id="SecondOption" formControlName="SecondOption">
+                        <p class="error" *ngIf="formPairSelection.get('SecondOption').hasError('required') && formPairSelection.get('SecondOption').touched">{{messageService.messages['required-field']}}</p>
+                        <p  class="error" *ngIf="formPairSelection.get('SecondOption').hasError('maxlength') && formPairSelection.get('SecondOption').touched">{{labelService.labels['max']}} 18 {{labelService.labels['char']}}</p>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="SecondAnswer">{{labelService.labels['answer']}} 2</label>
+                        <input type="SecondAnswer" class="form-control" id="SecondAnswer" formControlName="SecondAnswer">
+                        <p class="error" *ngIf="formPairSelection.get('SecondAnswer').hasError('required') && formPairSelection.get('SecondAnswer').touched">{{messageService.messages['required-field']}}</p>
+                        <p  class="error" *ngIf="formPairSelection.get('SecondAnswer').hasError('maxlength') && formPairSelection.get('SecondAnswer').touched">{{labelService.labels['max']}} 18 {{labelService.labels['char']}}</p>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="ThirdOption">{{labelService.labels['option']}} 3</label>
+                        <input type="ThirdOption" class="form-control" id="ThirdOption" formControlName="ThirdOption">
+                        <p class="error" *ngIf="formPairSelection.get('ThirdOption').hasError('required') && formPairSelection.get('ThirdOption').touched">{{messageService.messages['required-field']}}</p>
+                        <p  class="error" *ngIf="formPairSelection.get('ThirdOption').hasError('maxlength') && formPairSelection.get('ThirdOption').touched">{{labelService.labels['max']}} 18 {{labelService.labels['char']}}</p>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="ThirdAnswer">{{labelService.labels['answer']}} 3</label>
+                        <input type="ThirdAnswer" class="form-control" id="ThirdAnswer" formControlName="ThirdAnswer">
+                        <p class="error" *ngIf="formPairSelection.get('ThirdAnswer').hasError('required') && formPairSelection.get('ThirdAnswer').touched">{{messageService.messages['required-field']}}</p>
+                        <p  class="error" *ngIf="formPairSelection.get('ThirdAnswer').hasError('maxlength') && formPairSelection.get('ThirdAnswer').touched">{{labelService.labels['max']}} 18 {{labelService.labels['char']}}</p>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="FourthOption">{{labelService.labels['option']}} 4</label>
+                        <input type="FourthOption" class="form-control" id="FourthOption" formControlName="FourthOption">
+                        <p class="error" *ngIf="formPairSelection.get('FourthOption').hasError('required') && formPairSelection.get('FourthOption').touched">{{messageService.messages['required-field']}}</p>
+                        <p class="error" *ngIf="formPairSelection.get('FourthOption').hasError('maxlength') && formPairSelection.get('FourthOption').touched">{{labelService.labels['max']}} 18 {{labelService.labels['char']}}</p>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="FourthAnswer">{{labelService.labels['answer']}} 4</label>
+                        <input type="FourthAnswer" class="form-control" id="FourthAnswer" formControlName="FourthAnswer">
+                        <p class="error" *ngIf="formPairSelection.get('FourthAnswer').hasError('required') && formPairSelection.get('FourthAnswer').touched">{{messageService.messages['required-field']}}</p>
+                        <p class="error" *ngIf="formPairSelection.get('FourthAnswer').hasError('maxlength') && formPairSelection.get('FourthAnswer').touched">{{labelService.labels['max']}} 18 {{labelService.labels['char']}}</p>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="close()">{{labelService.labels['cancel']}}</button>
+    <button *ngIf="activeForm" type="button" [disabled]="formStep.invalid ||
+                                                        (!!selectedGameType && selectedGameType.Code == 'AUTCOMPLETADO' && formAutoComplete.invalid ) ||
+                                                        (!!selectedGameType && selectedGameType.Code == 'MULCHOICE' && formMultChoice.invalid ) ||
+                                                        (!!selectedGameType && selectedGameType.Code == 'SELCPARES' && formPairSelection.invalid )" class="btn btn-success" (click)="save()">{{labelService.labels['save']}}</button>
+</div>

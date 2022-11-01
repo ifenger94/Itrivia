@@ -1,0 +1,125 @@
+<div class="container" *ngIf="loading">
+  <div class="form-group item" id="item1">
+    <h1 class="mb-3">{{messageService.messages['abm-challenges']}}</h1>
+    <select id="SectionId" class="form-control" [(ngModel)]="selectedSectionId" (change)="getChallengeBySection()">
+      <option value="-1" selected>{{messageService.messages['select-section']}}</option>
+      <option *ngFor="let list of sectionsList" value="{{list.Id}}">{{list.Name}}</option>
+    </select>
+    <hr>
+    <button *ngIf="section" [disabled]="challengeList.length == section.ChallengeCount" type="button" class="btn"
+      (click)="open(contenido,'create',null)"><i class="fas fa-plus"></i>
+      {{labelService.labels['new']}}</button>
+    <table class="table bordered">
+      <thead class="thead-dark">
+        <tr class="title">
+          <th scope="col">#</th>
+          <th scope="col">{{labelService.labels['name']}}</th>
+          <th scope="col">{{labelService.labels['section']}}</th>
+          <!-- <th scope="col">{{labelService.labels['section']}}</th> -->
+          <th scope="col">{{messageService.messages['amount-steps']}}</th>
+          <th scope="col">{{labelService.labels['score']}}</th>
+          <th scope="col">{{messageService.messages['discharge-date']}}</th>
+          <th scope="col">{{labelService.labels['action']}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let list of challengeList | paginate:{itemsPerPage: 10, currentPage: page};let indice=index">
+          <th scope="row">{{indice+1}}</th>
+          <td>{{list.Name}}</td>
+          <td>{{getSectionName(list.SectionId)}}</td>
+          <!-- <td>{{list.Section.Name}}</td> -->
+          <td>{{list.StepsCount}}</td>
+          <td>{{list.Experience}}</td>
+          <td>{{list.CreateDate | date: 'dd/MM/yyyy'}}</td>
+          <td>
+            <a title="{{messageService.messages['edit-c']}}" (click)="open(contenido,'edit',list.Id)"><i
+                class="fas fa-highlighter editIcon"></i></a>
+            <a title="{{labelService.labels['steps']}}" (click)="openGame(list.Id)"><i class="fas fa-gamepad"
+                [ngClass]="{'gameIconDisabled': !list.Activated,'gameIcon': list.Activated}"></i></a>
+            <a title="{{messageService.messages['del-c']}}" (click)="deleteChallenge(list.Id)"><i
+                class="fas fa-trash deleteIcon"></i></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="challengeList.length==0">
+      <div style="padding:10px;text-align:center;">
+        <span class="text-info">{{messageService.messages['challenges-empty']}}</span>
+      </div>
+    </div>
+    <p style="float: right;margin-right: 10px;font-size: 14px;" *ngIf="section && challengeList.length !=0">
+      {{messageService.messages['challenges-quantity']}} {{challengeList.length}} / {{section.ChallengeCount}}</p>
+    <div class="mt-5" style="text-align: right;">
+      <pagination-controls responsive="true" autoHide="true" (pageChange)="page = $event"></pagination-controls>
+    </div>
+  </div>
+  <!-- Modal -->
+  <ng-template #contenido let-model id="modal">
+    <div class="modal-header">
+      <h4 class="modal-title"> {{messageService.messages['abm-challenges']}}</h4>
+      <button class="close" aria-label="close" type="button" (click)="modal.dismissAll()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form class="needs-validation" [formGroup]="form">
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="name">{{labelService.labels['name']}}</label>
+            <input type="name" class="form-control" id="name" placeholder="{{labelService.labels['name']}}"
+              formControlName="Name">
+            <p class="error" *ngIf="form.get('Name').hasError('required') && form.get('Name').touched">
+              {{messageService.messages['required-field']}}</p>
+            <p class="error" *ngIf="form.get('Name').hasError('maxlength') && form.get('Name').touched">
+              {{labelService.labels['max']}} 30 {{labelService.labels['char']}}</p>
+
+            <!-- <div class="form-group col-md-6">
+          <label for="SectionId">{{labelService.labels['section']}}</label>
+          <select id="SectionId" class="form-control" formControlName="SectionId">
+            <option value="null" selected disabled>{{messageService.messages['select-section']}}</option>
+            <option *ngFor="let list of sectionsList" value="{{list.Id}}" selected>{{list.Name}}</option>
+          </select>
+          <p class="error" *ngIf="form.get('SectionId').errors && form.get('SectionId').touched">
+            {{messageService.messages['required-field']}}</p> 
+        </div>-->
+
+            <label for="StepsCount">{{messageService.messages['amount-steps']}}</label>
+            <input type="number" class="form-control" id="steps"
+              placeholder="{{messageService.messages['amount-steps']}}" formControlName="StepsCount">
+            <p class="error" *ngIf="form.get('StepsCount').hasError('required') && form.get('StepsCount').touched">
+              {{messageService.messages['required-field']}}</p>
+            <p class="error" *ngIf="form.get('StepsCount').hasError('min') && form.get('StepsCount').touched">
+              {{labelService.labels['min']}} 1</p>
+            <p class="error" *ngIf="form.get('StepsCount').hasError('max') && form.get('StepsCount').touched">
+              {{labelService.labels['max']}} 20</p>
+
+
+            <label for="Experience">{{messageService.messages['exp-points']}}</label>
+            <input type="number" class="form-control" id="exp" placeholder="{{messageService.messages['exp-points']}}"
+              formControlName="Experience">
+            <p class="error" *ngIf="form.get('Experience').hasError('required') && form.get('Experience').touched">
+              {{messageService.messages['required-field']}}</p>
+            <p class="error" *ngIf="form.get('Experience').hasError('min') && form.get('Experience').touched">
+              {{labelService.labels['min']}} 1</p>
+            <p class="error" *ngIf="form.get('Experience').hasError('max') && form.get('Experience').touched">
+              {{labelService.labels['max']}} 1000</p>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="Description">{{messageService.messages['description']}}</label>
+            <textarea class="form-control" id="description" rows="7"
+              placeholder="{{labelService.labels['max']}} 80 {{labelService.labels['char']}}" style="resize: none;"
+              formControlName="Description"></textarea>
+            <p class="error" *ngIf="form.get('Description').hasError('required') && form.get('Description').touched">
+              {{messageService.messages['required-field']}}</p>
+            <p class="error" *ngIf="form.get('Description').hasError('maxlength') && form.get('Description').touched">
+              {{labelService.labels['max']}} 80 {{labelService.labels['char']}}</p>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-success" (click)="onSubmit(id)"
+        [disabled]="form.invalid">{{labelService.labels['save']}}</button>
+    </div>
+  </ng-template>
+  <!-- Modal -->

@@ -1,0 +1,16 @@
+<ng-container *ngIf="hasPermission(leftNavMenu.permission)">
+    <a href="#" [routerLink]="!!leftNavMenu.route?leftNavMenu.route:null"
+        (click)="!!leftNavMenu.method?leftNavMenu.method():showMenu = !showMenu">
+        <i class="{{leftNavMenu.icon}}" title="{{labelService.labels[leftNavMenu.name]}}">
+        </i><span>{{labelService.labels[leftNavMenu.name]}}</span><i *ngIf="!!leftNavMenu.links"
+            class="fas fa-chevron-down p-4"></i></a>
+    <ng-container *ngIf="!!leftNavMenu.links">
+        <div class="sub-menu" *ngIf="showMenu">
+            <ng-container *ngFor="let item of leftNavMenu.links">
+                <a class="sub-item" title="{{labelService.labels[item.name]}}" [routerLink]="item.route"
+                    *ngIf="hasPermission(item.permission)">
+                    <i class="{{item.icon}}"></i><span>{{labelService.labels[item.name]}}</span></a>
+            </ng-container>
+        </div>
+    </ng-container>
+</ng-container>

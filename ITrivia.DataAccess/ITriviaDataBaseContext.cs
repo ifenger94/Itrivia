@@ -39,7 +39,7 @@ namespace ITrivia.DataAccess
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("data source=localhost,1433;user id=sa;password=Emerix01;initial catalog=ITrivia.Database;");
+                optionsBuilder.UseLazyLoadingProxies().UseSqlServer("data source=localhost,1433;user id=sa;password=Emerix01;initial catalog=ITrivia.Database;");
             }
         }
 

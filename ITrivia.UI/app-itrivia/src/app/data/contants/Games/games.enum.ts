@@ -1,0 +1,5 @@
+export enum GAMES_ENUM{
+    AUTOCOMPLETADO = 1,
+    PAIRSELECTION = 2,
+    MULTIPLECHOISE = 3,
+}

@@ -1,0 +1,17 @@
+<div class="container">
+    <div class="jimmy-think">
+        <img src="../../../../../assets/img-game/matt-surprise.png" alt="">
+        <h1>Selecciones los pares según corresponda</h1>
+    </div>
+    <div class="options">
+        <ng-container *ngFor="let obj of pairOptions" style="text-align:center;">
+            <button type="button" class="btn  mt-5 btn-lg" style="width: 20%;"
+            [disabled]="disableButton"
+            [ngClass]="{
+                'btn-success': (pairSelectedOne == obj && waitSecondOption) || wasAssert(obj.Index), 
+                'btn-light' : !waitSecondOption && !wasNotAssert(obj.Index) && !wasAssert(obj.Index),
+                'btn-danger': wasNotAssert(obj.Index)}"
+            (click)="validate(obj)">{{obj.Option}}</button>
+        </ng-container>
+    </div>
+</div>

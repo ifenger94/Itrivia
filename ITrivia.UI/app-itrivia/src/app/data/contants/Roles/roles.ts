@@ -1,0 +1,4 @@
+export enum ROLES_ENUM{
+    ADMINISTRATOR = 'ADMINISTRATOR',
+    USER = 'USER'
+}
