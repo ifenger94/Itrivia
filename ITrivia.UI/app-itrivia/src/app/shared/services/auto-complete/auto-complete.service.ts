@@ -16,7 +16,7 @@ export class AutoCompleteService extends WebApiBaseService {
   }
 
   validateAnswer(id: number, answer: string): Observable<AutoCompleteResult> {
-    return this.http.get<AutoCompleteResult>(this.baseUrl + "Autocomplete/" + id + "?answer=" + answer);
+    return this.http.get<AutoCompleteResult>(this.baseUrl + "Autocomplete/" + id + "/validateanswer?answer=" + answer);
   }
 
   saveGame(aut:AutocompleteGameDto,step:Step): Observable<any> {
