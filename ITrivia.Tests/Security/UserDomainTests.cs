@@ -1,4 +1,6 @@
-﻿using ITrivia.Contracts.Repository;
+﻿using ITrivia.Contracts.Domain;
+using ITrivia.Contracts.Repository;
+using ITrivia.DataAccess.Repository;
 using ITrivia.Domain.Base;
 using ITrivia.Domain.Security;
 using ITrivia.Types.Models;
@@ -6,6 +8,7 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -33,7 +36,6 @@ namespace ITrivia.Tests.Security
         public void Create_ShouldReturnUser()
         {
             _userRepositoryMock.Setup(x => x.Create(_testUser)).Returns(_testUser);
-
             var newUser = _userDomain.Create(_testUser);
 
             Assert.NotNull(newUser);

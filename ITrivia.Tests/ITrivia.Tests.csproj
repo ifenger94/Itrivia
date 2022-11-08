@@ -27,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ITrivia.DataAccess\ITrivia.DataAccess.csproj" />
     <ProjectReference Include="..\ITrivia.Domain\ITrivia.Domain.csproj" />
   </ItemGroup>
 
