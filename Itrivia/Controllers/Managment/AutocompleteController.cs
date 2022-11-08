@@ -55,32 +55,32 @@ namespace Itrivia.WebApi.Controllers.Managment
             }
         }
 
-        //[HttpGet("{id}")]
-        //public IActionResult ValidateAnswer(int id, [FromQuery] string answer)
-        //{
-        //    try
-        //    {
-        //        GesTautocompletado autocp = _autoCompleteDomain.Get(id);
+        [HttpGet("{id}/validateanswer")]
+        public IActionResult ValidateAnswer(int id, [FromQuery]string answer)
+        {
+            try
+            {
+                GesTautocompletado autocp = _autoCompleteDomain.Get(id);
 
-        //        if (autocp == null) return NotFound();
+                if (autocp == null) return NotFound();
 
-        //        string curretAnswer = this._autoCompleteDomain.CorrectAnswer(id);
+                string curretAnswer = this._autoCompleteDomain.CorrectAnswer(id);
 
-        //        AutoCompleteResultDto auto = new AutoCompleteResultDto()
-        //        {
-        //            answer = curretAnswer
-        //        };
+                AutoCompleteResultDto auto = new AutoCompleteResultDto()
+                {
+                    answer = curretAnswer
+                };
 
-        //        if (curretAnswer.ToUpper() == answer.ToUpper()) auto.valid = true;
+                if (curretAnswer.ToUpper() == answer.ToUpper()) auto.valid = true;
 
-        //        return Ok(auto);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return Problem(detail: e.Message, statusCode: StatusCodes.Status500InternalServerError);
-        //    }
-        //}
-        
+                return Ok(auto);
+            }
+            catch (Exception e)
+            {
+                return Problem(detail: e.Message, statusCode: StatusCodes.Status500InternalServerError);
+            }
+        }
+
         [HttpPost]
         public IActionResult Post([FromBody] AutoCompleteAndStepDto item)
         {

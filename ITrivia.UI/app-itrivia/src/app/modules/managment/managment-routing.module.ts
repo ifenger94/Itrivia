@@ -61,6 +61,12 @@ const routes: Routes = [
     path: '403',
     component: ForbiddenComponent
   },
+  {
+    path: '',
+    component: SectionsComponent,
+    canActivate:[AuthGuard],
+    data : {roles : CONFIGURATION_ACCESS.MANAGMENT_EXPLORE}
+  },
 ];
 
 @NgModule({
