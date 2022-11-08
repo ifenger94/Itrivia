@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITrivia.Facade", "ITrivia.F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITrivia.UI", "ITrivia.UI\ITrivia.UI.csproj", "{F6DB6521-8427-4686-B236-90F98C36C7F8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITrivia.Tests", "ITrivia.Tests\ITrivia.Tests.csproj", "{A2E0D5F2-3A75-4A0D-AABD-26D8A8C9F8B0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -64,6 +66,10 @@ Global
 		{F6DB6521-8427-4686-B236-90F98C36C7F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F6DB6521-8427-4686-B236-90F98C36C7F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6DB6521-8427-4686-B236-90F98C36C7F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2E0D5F2-3A75-4A0D-AABD-26D8A8C9F8B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2E0D5F2-3A75-4A0D-AABD-26D8A8C9F8B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2E0D5F2-3A75-4A0D-AABD-26D8A8C9F8B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2E0D5F2-3A75-4A0D-AABD-26D8A8C9F8B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
